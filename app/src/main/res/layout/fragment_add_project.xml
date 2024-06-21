@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".fragment.AddProjectFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_project"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="@color/primary"
+        android:fontFamily="@font/poppins_bold"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/project_name_label"
+        style="@style/Label"
+        android:text="@string/project_name_label" />
+    <EditText
+        android:id="@+id/project_name_input"
+        style="@style/Input"
+        android:autofillHints="project_name"
+        android:hint="@string/project_name_hint"
+        android:inputType="text"
+        android:labelFor="@id/project_name_label" />
+
+    <TextView
+        android:id="@+id/project_description_label"
+        style="@style/Label"
+        android:text="@string/project_description_label"
+        android:layout_marginTop="10dp" />
+    <EditText
+        android:id="@+id/project_description_input"
+        style="@style/Input"
+        android:autofillHints="project_description"
+        android:hint="@string/project_description_hint"
+        android:inputType="text"
+        android:labelFor="@id/project_description_label" />
+
+    <android.widget.Button
+        android:id="@+id/submit_project_btn"
+        style="@style/PrimaryButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="@color/primary"
+        android:backgroundTintMode="src_atop"
+        android:text="@string/add_project"
+        android:textColor="@color/white" />
+</LinearLayout>

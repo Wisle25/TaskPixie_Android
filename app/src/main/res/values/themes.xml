@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.TaskPixie" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/purple</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorSecondaryVariant">@color/primaryBlue</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <!-- Other colors. -->
+        <item name="android:colorBackground">@color/lighterBlue</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnBackground">@color/black</item>
+        <item name="colorOnSurface">@color/black</item>
+        <item name="colorOnError">@color/white</item>
+    </style>
+
+    <!-- Button -->
+    <style name="PrimaryButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/inter_bold</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:background">@drawable/rounded_shape</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:backgroundTintMode">multiply</item>
+        <item name="android:textColor">@color/primary</item>
+    </style>
+
+    <!-- Label -->
+    <style name="Label">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">1dp</item>
+        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <!-- Input -->
+    <style name="Input">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/rounded_shape</item>
+        <item name="android:backgroundTint">@color/lighterBlue</item>
+        <item name="android:backgroundTintMode">multiply</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/black</item>
+    </style>
+
+    <!-- Splash Screen Theme -->
+    <style name="Theme.TaskPixie.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/primary</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/app_logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.TaskPixie</item>
+    </style>
+
+    <style name="Theme.TaskPixie" parent="Base.Theme.TaskPixie" />
+</resources>

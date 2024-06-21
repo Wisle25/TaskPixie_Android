@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingHorizontal="35dp"
+    tools:context=".fragment.RegisterFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/register_msg"
+        android:textAlignment="center"
+        android:textColor="@color/primary"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:scaleType="fitCenter"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/app_logo" />
+
+    <!-- Form -->
+    <TextView
+        android:id="@+id/username_label"
+        style="@style/Label"
+        android:text="@string/username_label" />
+    <EditText
+        android:id="@+id/username_input"
+        style="@style/Input"
+        android:autofillHints="username"
+        android:hint="@string/username_hint"
+        android:inputType="text"
+        android:labelFor="@id/username_label" />
+
+    <TextView
+        android:id="@+id/email_label"
+        style="@style/Label"
+        android:layout_marginTop="10dp"
+        android:text="@string/email_label" />
+    <EditText
+        android:id="@+id/email_input"
+        style="@style/Input"
+        android:autofillHints="email"
+        android:hint="@string/email_hint"
+        android:inputType="textEmailAddress"
+        android:labelFor="@id/email_label" />
+
+    <TextView
+        android:id="@+id/password_label"
+        style="@style/Label"
+        android:layout_marginTop="10dp"
+        android:text="@string/password_label" />
+    <EditText
+        android:id="@+id/password_input"
+        style="@style/Input"
+        android:autofillHints="password"
+        android:hint="@string/password_hint"
+        android:inputType="textPassword"
+        android:labelFor="@id/password_label" />
+
+    <TextView
+        android:id="@+id/confirm_password_label"
+        style="@style/Label"
+        android:layout_marginTop="10dp"
+        android:text="@string/confirm_password_label" />
+    <EditText
+        android:id="@+id/confirm_password_input"
+        style="@style/Input"
+        android:autofillHints="confirm_password"
+        android:hint="@string/confirm_password_hint"
+        android:inputType="textPassword"
+        android:labelFor="@id/confirm_password_label" />
+
+    <android.widget.Button
+        android:id="@+id/register_btn"
+        style="@style/PrimaryButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="@color/primary"
+        android:backgroundTintMode="src_atop"
+        android:text="@string/register"
+        android:textColor="@color/white" />
+
+</LinearLayout>

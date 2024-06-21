@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingHorizontal="35dp"
+    tools:context=".fragment.LoginFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/register_msg"
+        android:textAlignment="center"
+        android:textColor="@color/primary"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_marginBottom="85dp"
+        android:scaleType="fitCenter"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/app_logo" />
+
+    <!-- Form -->
+    <TextView
+        android:id="@+id/identity_label"
+        style="@style/Label"
+        android:text="@string/identity_label" />
+    <EditText
+        android:id="@+id/identity_input"
+        style="@style/Input"
+        android:autofillHints="identity"
+        android:hint="@string/identity_hint"
+        android:inputType="text"
+        android:labelFor="@id/identity_label" />
+
+    <TextView
+        android:id="@+id/password_label"
+        style="@style/Label"
+        android:layout_marginTop="10dp"
+        android:text="@string/password_label" />
+    <EditText
+        android:id="@+id/password_input"
+        style="@style/Input"
+        android:autofillHints="password"
+        android:hint="@string/password_hint"
+        android:inputType="textPassword"
+        android:labelFor="@id/password_label" />
+
+    <android.widget.Button
+        android:id="@+id/login_btn"
+        style="@style/PrimaryButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:backgroundTint="@color/primary"
+        android:backgroundTintMode="src_atop"
+        android:text="@string/login"
+        android:textColor="@color/white" />
+</LinearLayout>
