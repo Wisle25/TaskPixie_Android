@@ -1,58 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:padding="16dp"
-    tools:context=".fragment.AddTaskFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_task"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:textColor="@color/primary"
-        android:fontFamily="@font/poppins_bold"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp"/>
-
-    <TextView
-        android:id="@+id/task_title_label"
-        style="@style/Label"
-        android:text="@string/task_title_label" />
-    <EditText
-        android:id="@+id/task_title_input"
-        style="@style/Input"
-        android:autofillHints="task_title"
-        android:hint="@string/task_title_hint"
-        android:inputType="text"
-        android:labelFor="@id/task_title_label" />
-
-    <TextView
-        android:id="@+id/task_description_label"
-        style="@style/Label"
-        android:text="@string/task_description_label"
-        android:layout_marginTop="10dp" />
-    <EditText
-        android:id="@+id/task_description_input"
-        style="@style/Input"
-        android:autofillHints="task_description"
-        android:hint="@string/task_description_hint"
-        android:inputType="text"
-        android:labelFor="@id/task_description_label" />
-
-    <android.widget.Button
-        android:id="@+id/submit_task_btn"
-        style="@style/PrimaryButton"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:backgroundTint="@color/primary"
-        android:backgroundTintMode="src_atop"
-        android:text="@string/add_task"
-        android:textColor="@color/white" />
-</LinearLayout>
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context=".fragment.AddTaskFragment">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_task"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary"
+            android:fontFamily="@font/poppins_bold"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:id="@+id/task_title_label"
+            style="@style/Label"
+            android:text="@string/task_title_label" />
+        <EditText
+            android:id="@+id/task_title_input"
+            style="@style/Input"
+            android:autofillHints="task_title"
+            android:hint="@string/task_title_hint"
+            android:inputType="text"
+            android:labelFor="@id/task_title_label" />
+
+        <TextView
+            android:id="@+id/task_description_label"
+            style="@style/Label"
+            android:text="@string/task_description_label"
+            android:layout_marginTop="10dp" />
+        <EditText
+            android:id="@+id/task_description_input"
+            style="@style/Input"
+            android:autofillHints="task_description"
+            android:hint="@string/task_description_hint"
+            android:inputType="textMultiLine"
+            android:gravity="start"
+            android:minLines="2"
+            android:maxLines="2"
+            android:scrollbars="vertical" />
+
+        <TextView
+            android:id="@+id/task_detail_label"
+            style="@style/Label"
+            android:text="@string/task_detail_label"
+            android:layout_marginTop="10dp" />
+        <EditText
+            android:id="@+id/task_detail_input"
+            style="@style/Input"
+            android:autofillHints="task_detail"
+            android:gravity="start"
+            android:hint="@string/task_detail_hint"
+            android:inputType="textMultiLine"
+            android:labelFor="@id/task_detail_label"
+            android:minLines="3"
+            android:maxLines="5"
+            android:scrollbars="vertical" />
+
+        <TextView
+            android:id="@+id/task_priority_label"
+            style="@style/Label"
+            android:text="@string/task_priority_label"
+            android:layout_marginTop="10dp" />
+        <Spinner
+            android:id="@+id/task_priority_spinner"
+            style="@style/Spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/task_priorities" />
+
+        <TextView
+            android:id="@+id/task_due_date_label"
+            style="@style/Label"
+            android:text="@string/task_due_date_label"
+            android:layout_marginTop="10dp" />
+        <EditText
+            android:id="@+id/task_due_date_input"
+            style="@style/Input"
+            android:autofillHints="task_due_date"
+            android:hint="@string/task_due_date_hint"
+            android:inputType="date"
+            android:labelFor="@id/task_due_date_label"
+            android:focusable="false"
+            android:clickable="true" />
+
+        <TextView
+            android:id="@+id/task_status_label"
+            style="@style/Label"
+            android:text="@string/task_status_label"
+            android:layout_marginTop="10dp" />
+        <Spinner
+            android:id="@+id/task_status_spinner"
+            style="@style/Spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/task_statuses" />
+
+        <TextView
+            android:id="@+id/task_project_label"
+            style="@style/Label"
+            android:text="@string/task_project_label"
+            android:layout_marginTop="10dp" />
+        <Spinner
+            android:id="@+id/task_project_spinner"
+            style="@style/Spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/task_projects" />
+
+        <TextView
+            android:id="@+id/task_assigned_to_label"
+            style="@style/Label"
+            android:text="@string/assigned_to_label"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:id="@+id/task_assigned_to_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+        </LinearLayout>
+        <android.widget.Button
+            android:id="@+id/add_member_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_member"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone" />
+
+        <android.widget.Button
+            android:id="@+id/submit_task_btn"
+            style="@style/PrimaryButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:backgroundTint="@color/primary"
+            android:backgroundTintMode="src_atop"
+            android:text="@string/add_task"
+            android:textColor="@color/white" />
+    </LinearLayout>
+</ScrollView>

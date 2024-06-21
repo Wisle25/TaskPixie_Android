@@ -1,25 +1,79 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@drawable/rounded_shape"
-    android:backgroundTint="@color/primary"
+    android:layout_height="150dp"
     android:layout_marginVertical="10dp"
-    android:padding="10dp">
+    android:layout_gravity="center"
+    app:cardBackgroundColor="@color/lighterBlue"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="8dp">
 
-    <TextView
-        android:id="@+id/taskTitle"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="@color/white" />
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="10dp">
 
-    <TextView
-        android:id="@+id/taskCompleted"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textColor="@color/white" />
-</LinearLayout>
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_task"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/task_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="21sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary"
+                android:text="@string/task_title"
+                android:layout_marginBottom="5dp"/>
+
+            <TextView
+                android:id="@+id/task_priority"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:background="@drawable/rounded_shape"
+                android:backgroundTint="@color/green"
+                android:padding="7dp"
+                android:fontFamily="@font/inter_bold"
+                android:textColor="@color/lighterBlue"
+                android:text="@string/priority_task"
+                android:layout_marginBottom="5dp"/>
+
+            <TextView
+                android:id="@+id/task_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_regular"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="@string/task_description"
+                android:layout_marginBottom="5dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/task_project"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:background="@drawable/rounded_shape"
+            android:backgroundTint="@color/purple"
+            android:padding="7dp"
+            android:fontFamily="@font/inter_bold"
+            android:textColor="@color/lighterBlue"
+            android:text="@string/project_task"
+            android:layout_gravity="end"
+            android:layout_marginBottom="5dp"/>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

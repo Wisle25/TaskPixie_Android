@@ -5,8 +5,23 @@ data class TaskPayload(
     val description: String
 )
 
+data class PreviewTask(
+    val id: String,
+    val title: String,
+    val description: String,
+    val priority: String,
+    val status: String,
+    val project: String?,
+)
+
 data class Task(
     val id: String,
     val title: String,
-    val completed: Boolean
+    val description: String,
+    val detail: String,
+    val priority: String,
+    val project: String?,
+    val assignedTo: List<String>?,
+    val dueDate: String?,
+    val status: String
 )

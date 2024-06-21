@@ -1,18 +1,19 @@
 package com.example.taskpixie.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskpixie.databinding.TaskItemBinding
-import com.example.taskpixie.model.Task
+import com.example.taskpixie.model.PreviewTask
 
 class TasksAdapter : RecyclerView.Adapter<TasksAdapter.TaskViewHolder>() {
 
-    private val tasks: MutableList<Task> = mutableListOf()
+    private var tasks: List<PreviewTask> = emptyList()
 
-    fun submitList(newTasks: List<Task>) {
-        tasks.clear()
-        tasks.addAll(newTasks)
+    @SuppressLint("NotifyDataSetChanged")
+    fun submitList(newTasks: List<PreviewTask>) {
+        tasks = newTasks
         notifyDataSetChanged()
     }
 
@@ -28,9 +29,11 @@ class TasksAdapter : RecyclerView.Adapter<TasksAdapter.TaskViewHolder>() {
     override fun getItemCount(): Int = tasks.size
 
     class TaskViewHolder(private val binding: TaskItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(task: Task) {
+        fun bind(task: PreviewTask) {
             binding.taskTitle.text = task.title
-            binding.taskCompleted.text = if (task.completed) "Completed" else "Incomplete"
+            binding.taskPriority.text = task.priority
+            binding.taskDescription.text = task.description
+            binding.taskProject.text = task.project
         }
     }
 }

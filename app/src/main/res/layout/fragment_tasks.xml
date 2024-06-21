@@ -1,37 +1,315 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    tools:context=".fragment.TasksFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tasks"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:paddingBottom="16dp"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/tasksRecyclerView"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="16dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="30dp">
+
+            <!-- User Info -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/greets_user"
+                        android:textColor="@color/purple"
+                        android:fontFamily="@font/poppins_bold"
+                        android:letterSpacing="0.15"
+                        android:includeFontPadding="false"
+                        android:textSize="25sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/greets_msg"
+                        android:textSize="15sp"
+                        android:textColor="@color/purple"
+                        android:fontFamily="@font/inter_regular"/>
+                </LinearLayout>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="75dp"
+                    android:src="@drawable/anonym"
+                    android:layout_marginStart="25dp"/>
+
+            </LinearLayout>
+
+            <!-- Search -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp"
+                android:gravity="center">
+
+                <EditText
+                    android:id="@+id/search_name_input"
+                    style="@style/Input"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:autofillHints="search_name"
+                    android:hint="@string/search_name"
+                    android:inputType="text"
+                    android:drawableStart="@drawable/ic_text"
+                    android:drawablePadding="10dp"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_shape"
+                    android:backgroundTint="@color/primary"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_search"
+                    android:padding="5dp"
+                    android:layout_marginHorizontal="5dp"
+                    app:tint="@color/white" />
+
+                <android.widget.Button
+                    style="@style/PrimaryButton"
+                    android:layout_width="wrap_content"
+                    android:drawableStart="@drawable/ic_filter"
+                    android:padding="5dp"
+                    android:text="@string/filter"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="10dp">
+
+                <android.widget.Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/PrimaryButton"
+                    android:backgroundTint="@color/primary"
+                    android:text="@string/low_priority"
+                    android:drawableTop="@drawable/ic_low_priority"
+                    android:drawableTint="@color/white"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:padding="10dp"/>
+
+                <android.widget.Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/PrimaryButton"
+                    android:backgroundTint="@color/primary"
+                    android:text="@string/high_priority"
+                    android:drawableTop="@drawable/ic_exclamation"
+                    android:drawableTint="@color/white"
+                    android:textColor="@color/white"
+                    android:layout_marginHorizontal="20dp"
+                    android:textSize="20sp"
+                    android:padding="10dp"/>
+
+                <android.widget.Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/PrimaryButton"
+                    android:backgroundTint="@color/primary"
+                    android:text="@string/urgent_priority"
+                    android:drawableTop="@drawable/ic_urgent"
+                    android:drawableTint="@color/white"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:padding="10dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:id="@+id/todo_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="start|center"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/todo_tasks"
+                        android:fontFamily="@font/poppins_bold"
+                        android:textSize="17sp"
+                        android:textColor="@color/secondaryBlue"
+                        android:includeFontPadding="false"
+                        android:layout_marginEnd="5dp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_dropdown"
+                        app:tint="@color/primaryBlue" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/todo_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:id="@+id/in_progress_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="start|center"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/in_progress_tasks"
+                        android:fontFamily="@font/poppins_bold"
+                        android:textSize="17sp"
+                        android:textColor="@color/orange"
+                        android:includeFontPadding="false"
+                        android:layout_marginEnd="5dp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_dropdown"
+                        app:tint="@color/primaryBlue"/>
+                </LinearLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/in_progress_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:id="@+id/completed_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="start|center"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/completed_tasks"
+                        android:fontFamily="@font/poppins_bold"
+                        android:textSize="17sp"
+                        android:textColor="@color/green"
+                        android:includeFontPadding="false"
+                        android:layout_marginEnd="5dp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_dropdown"
+                        app:tint="@color/primaryBlue"/>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/completed_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:id="@+id/missing_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="start|center"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/missing_tasks"
+                        android:fontFamily="@font/poppins_bold"
+                        android:textSize="17sp"
+                        android:textColor="@color/grey"
+                        android:includeFontPadding="false"
+                        android:layout_marginEnd="5dp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_dropdown"
+                        app:tint="@color/primaryBlue"/>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/missing_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="30dp"
         android:contentDescription="@string/add_task"
         android:src="@drawable/ic_add"
         app:backgroundTint="@color/primary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:tint="@color/white" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

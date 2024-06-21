@@ -32,10 +32,60 @@
     <string name="project_name_hint">Enter your project name</string>
     <string name="project_description_label">Description:</string>
     <string name="project_description_hint">Enter project description</string>
-    <string name="tasks">Tasks List</string>
     <string name="add_task">Add Task</string>
     <string name="task_title_label">Title:</string>
     <string name="task_title_hint">Enter your title</string>
     <string name="task_description_label">Description:</string>
     <string name="task_description_hint">Enter your description</string>
+    <string name="greets_user">Welcome, User!</string>
+    <string name="greets_msg">Have a Nice day!</string>
+    <string name="search_name">Find tasks</string>
+    <string name="low_priority">Low</string>
+    <string name="high_priority">High</string>
+    <string name="urgent_priority">Urgent</string>
+    <string name="todo_tasks">To Do</string>
+    <string name="in_progress_tasks">In Progress</string>
+    <string name="completed_tasks">Completed</string>
+    <string name="filter">Filter</string>
+    <string name="missing_tasks">Missing</string>
+    <string name="task_title">Task Title</string>
+    <string name="priority_task">Priority</string>
+    <string name="task_description">Lorem Ipsum Dolor Sit Amet</string>
+    <string name="project_task">Project</string>
+    <string name="task_priority_label">Priority:</string>
+    <string name="task_due_date_label">Due Date:</string>
+    <string name="task_due_date_hint">Enter your due date</string>
+    <string name="task_status_label">Status:</string>
+    <string name="task_project_label">Project:</string>
+    <string name="assigned_to_label">Assigned To:</string>
+    <string name="select_project">Select a project</string>
+    <string name="add_member">Add Member</string>
+    <string name="task_detail_label">Detail:</string>
+    <string name="task_detail_hint">Enter your detail</string>
+
+    <!-- Task Priorities Array -->
+    <string-array name="task_priorities">
+        <item>Low</item>
+        <item>Medium</item>
+        <item>High</item>
+        <item>Urgent</item>
+    </string-array>
+
+    <!-- Task Statuses Array -->
+    <string-array name="task_statuses">
+        <item>To Do</item>
+        <item>In Progress</item>
+        <item>Completed</item>
+        <item>Canceled</item>
+        <item>Missing</item>
+    </string-array>
+
+    <!-- Task Projects Array (sample projects, you might want to populate this dynamically) -->
+    <string-array name="task_projects">
+        <item>@string/select_project</item>
+        <item>Project 1</item>
+        <item>Project 2</item>
+        <item>Project 3</item>
+        <item>Project 4</item>
+    </string-array>
 </resources>

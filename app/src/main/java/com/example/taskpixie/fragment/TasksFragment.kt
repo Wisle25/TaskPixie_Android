@@ -4,30 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.taskpixie.adapter.TasksAdapter
 import com.example.taskpixie.databinding.FragmentTasksBinding
-import com.example.taskpixie.datastore.UserPreferences
-import com.example.taskpixie.http.RetrofitClient
-import com.example.taskpixie.model.ApiResponse
-import com.example.taskpixie.model.Task
 import com.example.taskpixie.R
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.taskpixie.model.PreviewTask
 
 class TasksFragment : Fragment() {
 
     private var _binding: FragmentTasksBinding? = null
     private val binding get() = _binding!!
-    private lateinit var userPreferences: UserPreferences
-    private lateinit var tasksAdapter: TasksAdapter
+
+    private lateinit var todoAdapter: TasksAdapter
+    private lateinit var inProgressAdapter: TasksAdapter
+    private lateinit var completedAdapter: TasksAdapter
+    private lateinit var missingAdapter: TasksAdapter
+
+    private lateinit var tasks: List<PreviewTask>
 
     // ==================== Lifecycles ==================== //
 
@@ -36,22 +31,15 @@ class TasksFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTasksBinding.inflate(inflater, container, false)
-        userPreferences = UserPreferences(requireContext())
 
-        tasksAdapter = TasksAdapter()
-        binding.tasksRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.tasksRecyclerView.adapter = tasksAdapter
+        setupRecyclerViews()
+        setupToggleButtons()
+
+        // Use dummy data for now
+        loadDummyData()
 
         binding.fabAddTask.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_tasks_to_addTaskFragment)
-        }
-
-        lifecycleScope.launch {
-            val accessToken = userPreferences.accessToken.first()
-            val userId = userPreferences.userId.first()
-            if (!accessToken.isNullOrEmpty() && !userId.isNullOrEmpty()) {
-                fetchTasks("Bearer $accessToken", userId)
-            }
         }
 
         return binding.root
@@ -62,28 +50,84 @@ class TasksFragment : Fragment() {
         _binding = null
     }
 
-    // ==================== Fetch Tasks ==================== //
+    // ==================== Setup Methods ==================== //
 
-    private fun fetchTasks(token: String, userId: String) {
-        RetrofitClient.taskService.getTasksByUser(token, userId).enqueue(object : Callback<ApiResponse<List<Task>>> {
-            override fun onResponse(call: Call<ApiResponse<List<Task>>>, response: Response<ApiResponse<List<Task>>>) {
-                if (response.isSuccessful) {
-                    val apiResponse = response.body()
-                    if (apiResponse?.status == "success") {
-                        apiResponse.data?.let { tasks ->
-                            tasksAdapter.submitList(tasks)
-                        }
-                    } else {
-                        Toast.makeText(activity, apiResponse?.message ?: "Failed to fetch tasks!", Toast.LENGTH_SHORT).show()
-                    }
-                } else {
-                    Toast.makeText(activity, "Failed to fetch tasks!", Toast.LENGTH_SHORT).show()
-                }
-            }
+    private fun setupRecyclerViews() {
+        todoAdapter = TasksAdapter()
+        inProgressAdapter = TasksAdapter()
+        completedAdapter = TasksAdapter()
+        missingAdapter = TasksAdapter()
 
-            override fun onFailure(call: Call<ApiResponse<List<Task>>>, t: Throwable) {
-                Toast.makeText(activity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
-            }
-        })
+        binding.todoRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = todoAdapter
+        }
+
+        binding.inProgressRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = inProgressAdapter
+        }
+
+        binding.completedRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = completedAdapter
+        }
+
+        binding.missingRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = missingAdapter
+        }
+
+        // Set initial visibility to GONE
+        binding.todoRecyclerView.visibility = View.GONE
+        binding.inProgressRecyclerView.visibility = View.GONE
+        binding.completedRecyclerView.visibility = View.GONE
+        binding.missingRecyclerView.visibility = View.GONE
+    }
+
+    private fun setupToggleButtons() {
+        binding.completedBtn.setOnClickListener {
+            toggleVisibility(binding.completedRecyclerView)
+        }
+        binding.inProgressBtn.setOnClickListener {
+            toggleVisibility(binding.inProgressRecyclerView)
+        }
+        binding.todoBtn.setOnClickListener {
+            toggleVisibility(binding.todoRecyclerView)
+        }
+        binding.missingBtn.setOnClickListener {
+            toggleVisibility(binding.missingRecyclerView)
+        }
+    }
+
+    private fun toggleVisibility(recyclerView: View) {
+        recyclerView.visibility = if (recyclerView.visibility == View.VISIBLE) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+    }
+
+    private fun loadDummyData() {
+        tasks = listOf(
+            PreviewTask(id = "1", title = "Task 1", description = "Description 1", status = "To Do", priority = "Low", project = "Project 1"),
+            PreviewTask(id = "2", title = "Task 2", description = "Description 2", status = "In Progress", priority = "High", project = "Project 2"),
+            PreviewTask(id = "3", title = "Task 3", description = "Description 3", status = "Completed", priority = "Medium", project = "Project 3"),
+            PreviewTask(id = "4", title = "Task 4", description = "Description 4", status = "Missing", priority = "High", project = "Project 4"),
+            PreviewTask(id = "5", title = "Task 5", description = "Description 5", status = "To Do", priority = "Low", project = "Project 1"),
+            PreviewTask(id = "6", title = "Task 6", description = "Description 6", status = "In Progress", priority = "High", project = "Project 2"),
+            PreviewTask(id = "7", title = "Task 7", description = "Description 7", status = "Completed", priority = "Medium", project = "Project 3"),
+            PreviewTask(id = "8", title = "Task 8", description = "Description 8", status = "Missing", priority = "High", project = "Project 4")
+        )
+
+        val todoTasks = tasks.filter { it.status == "To Do" }
+        val inProgressTasks = tasks.filter { it.status == "In Progress" }
+        val completedTasks = tasks.filter { it.status == "Completed" }
+        val missingTasks = tasks.filter { it.status == "Missing" }
+
+        todoAdapter.submitList(todoTasks)
+        inProgressAdapter.submitList(inProgressTasks)
+        completedAdapter.submitList(completedTasks)
+        missingAdapter.submitList(missingTasks)
     }
 }
