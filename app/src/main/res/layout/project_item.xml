@@ -9,8 +9,7 @@
     android:padding="16dp"
     android:layout_marginVertical="5dp"
     android:layout_marginHorizontal="5dp"
-    android:background="@drawable/rounded_shape"
-    android:backgroundTint="@color/primary">
+    android:background="@drawable/rounded_shape">
 
     <TextView
         android:id="@+id/projectName"
@@ -18,9 +17,10 @@
         android:layout_height="wrap_content"
         android:drawablePadding="8dp"
         android:paddingTop="16dp"
-        android:textColor="@color/white"
+        android:textColor="@color/primaryBlue"
         android:textSize="12sp"
         android:textStyle="bold"
-        app:drawableTint="@color/white"
-        app:drawableTopCompat="@drawable/ic_projects" />
+        android:text="@string/projects"
+        app:drawableTint="@color/primaryBlue"
+        app:drawableTopCompat="@drawable/ic_project" />
 </LinearLayout>

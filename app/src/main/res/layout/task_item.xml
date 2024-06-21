@@ -34,7 +34,7 @@
                 android:textSize="21sp"
                 android:textStyle="bold"
                 android:textColor="@color/primary"
-                android:text="@string/task_title"
+                android:text="@string/title"
                 android:layout_marginBottom="5dp"/>
 
             <TextView
@@ -47,7 +47,7 @@
                 android:padding="7dp"
                 android:fontFamily="@font/inter_bold"
                 android:textColor="@color/lighterBlue"
-                android:text="@string/priority_task"
+                android:text="@string/priority"
                 android:layout_marginBottom="5dp"/>
 
             <TextView
@@ -58,7 +58,7 @@
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                android:text="@string/task_description"
+                android:text="@string/description"
                 android:layout_marginBottom="5dp"/>
         </LinearLayout>
 

@@ -53,10 +53,18 @@ class TasksFragment : Fragment() {
     // ==================== Setup Methods ==================== //
 
     private fun setupRecyclerViews() {
-        todoAdapter = TasksAdapter()
-        inProgressAdapter = TasksAdapter()
-        completedAdapter = TasksAdapter()
-        missingAdapter = TasksAdapter()
+        todoAdapter = TasksAdapter {
+            findNavController().navigate(R.id.action_navigation_tasks_to_taskDetailFragment)
+        }
+        inProgressAdapter = TasksAdapter {
+            findNavController().navigate(R.id.action_navigation_tasks_to_taskDetailFragment)
+        }
+        completedAdapter = TasksAdapter {
+            findNavController().navigate(R.id.action_navigation_tasks_to_taskDetailFragment)
+        }
+        missingAdapter = TasksAdapter {
+            findNavController().navigate(R.id.action_navigation_tasks_to_taskDetailFragment)
+        }
 
         binding.todoRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)

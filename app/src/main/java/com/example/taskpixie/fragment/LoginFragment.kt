@@ -82,43 +82,47 @@ class LoginFragment : Fragment() {
     }
 
     private fun handleLogin(payload: LoginUserPayload) {
-        RetrofitClient.userService.loginUser(payload).enqueue(object :
-            Callback<ApiResponse<String>> {
-            override fun onResponse(call: Call<ApiResponse<String>>, response: Response<ApiResponse<String>>) {
-                val gson = Gson()
-                val type = object : TypeToken<ApiResponse<String>>() {}.type
-
-                val apiResponse: ApiResponse<String>? = if (response.isSuccessful) {
-                    response.body()
-                } else {
-                    gson.fromJson(response.errorBody()?.charStream(), type)
-                }
-
-                if (apiResponse?.status == "success") {
-                    Toast.makeText(activity, apiResponse.message, Toast.LENGTH_SHORT).show()
-                    val accessToken = response.headers()["Authorization"]?.replace("Bearer ", "")
-                    val refreshToken = response.headers()["X-Refresh-Token"]
-
-                    if (accessToken != null && refreshToken != null) {
-                        lifecycleScope.launch {
-                            userPreferences.saveTokens(accessToken, refreshToken)
-                            userPreferences.saveCredentials(payload.identity, payload.password)
-
-                            // Navigate to MainActivity
-                            val intent = Intent(requireContext(), MainActivity::class.java)
-                            startActivity(intent)
-                            requireActivity().finish() // Finish LoginActivity
-                        }
-                    }
-                } else {
-                    displayErrorMessages(apiResponse?.message)
-                }
-            }
-
-            override fun onFailure(call: Call<ApiResponse<String>>, t: Throwable) {
-                Toast.makeText(activity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
-            }
-        })
+//        RetrofitClient.userService.loginUser(payload).enqueue(object :
+//            Callback<ApiResponse<String>> {
+//            override fun onResponse(call: Call<ApiResponse<String>>, response: Response<ApiResponse<String>>) {
+//                val gson = Gson()
+//                val type = object : TypeToken<ApiResponse<String>>() {}.type
+//
+//                val apiResponse: ApiResponse<String>? = if (response.isSuccessful) {
+//                    response.body()
+//                } else {
+//                    gson.fromJson(response.errorBody()?.charStream(), type)
+//                }
+//
+//                if (apiResponse?.status == "success") {
+//                    Toast.makeText(activity, apiResponse.message, Toast.LENGTH_SHORT).show()
+//                    val accessToken = response.headers()["Authorization"]?.replace("Bearer ", "")
+//                    val refreshToken = response.headers()["X-Refresh-Token"]
+//
+//                    if (accessToken != null && refreshToken != null) {
+//                        lifecycleScope.launch {
+//                            userPreferences.saveTokens(accessToken, refreshToken)
+//                            userPreferences.saveCredentials(payload.identity, payload.password)
+//
+//                            // Navigate to MainActivity
+//                            val intent = Intent(requireContext(), MainActivity::class.java)
+//                            startActivity(intent)
+//                            requireActivity().finish() // Finish LoginActivity
+//                        }
+//                    }
+//                } else {
+//                    displayErrorMessages(apiResponse?.message)
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<ApiResponse<String>>, t: Throwable) {
+//                Toast.makeText(activity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+//            }
+//        })
+        // REMOVE THIS LATER!!
+        val intent = Intent(requireContext(), MainActivity::class.java)
+        startActivity(intent)
+        requireActivity().finish() // Finish LoginActivity
     }
 
     private fun displayErrorMessages(message: String?) {

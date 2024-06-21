@@ -5,6 +5,11 @@ data class ProjectPayload(
     val description: String
 )
 
+data class PreviewProject(
+    val id: String,
+    val name: String,
+)
+
 data class Project(
     val id: String,
     val name: String,

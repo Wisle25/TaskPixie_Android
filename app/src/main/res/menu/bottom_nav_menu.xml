@@ -6,7 +6,7 @@
         android:title="@string/title_tasks" />
     <item
         android:id="@+id/navigation_projects"
-        android:icon="@drawable/ic_projects"
+        android:icon="@drawable/ic_project"
         android:title="@string/title_projects" />
     <item
         android:id="@+id/navigation_user_profile"

@@ -1,52 +1,35 @@
 package com.example.taskpixie.fragment
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.ArrayAdapter
+import android.widget.ImageButton
+import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import com.example.taskpixie.R
 import com.example.taskpixie.databinding.FragmentAddProjectBinding
-import com.example.taskpixie.datastore.UserPreferences
-import com.example.taskpixie.http.RetrofitClient
-import com.example.taskpixie.model.ApiResponse
-import com.example.taskpixie.model.Project
-import com.example.taskpixie.model.ProjectPayload
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.taskpixie.R
 
 class AddProjectFragment : Fragment() {
 
     private var _binding: FragmentAddProjectBinding? = null
     private val binding get() = _binding!!
-    private lateinit var userPreferences: UserPreferences
 
-    // ==================== Lifecycles ==================== //
+    // Dummy data for project members
+    private val allMembers = listOf("Alice", "Bob", "Charlie", "David", "Eve", "Frank", "Grace", "Hank")
+    private val assignedMembers = mutableListOf<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAddProjectBinding.inflate(inflater, container, false)
-        userPreferences = UserPreferences(requireContext())
 
-        binding.submitProjectBtn.setOnClickListener {
-            val (isValid, payload) = getInputValues()
-            if (isValid) {
-                lifecycleScope.launch {
-                    val accessToken = userPreferences.accessToken.first()
-                    if (!accessToken.isNullOrEmpty()) {
-                        addProject("Bearer $accessToken", payload)
-                    }
-                }
-            }
-        }
+        setupAutoCompleteTextView()
 
         return binding.root
     }
@@ -56,47 +39,43 @@ class AddProjectFragment : Fragment() {
         _binding = null
     }
 
-    // ==================== Input Handling ==================== //
+    private fun setupAutoCompleteTextView() {
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, allMembers)
+        binding.autoCompleteTextView.setAdapter(adapter)
 
-    private fun getInputValues(): Pair<Boolean, ProjectPayload> {
-        val name = binding.projectNameInput.text.toString()
-        val description = binding.projectDescriptionInput.text.toString()
+        binding.autoCompleteTextView.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
-        var isValid = true
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                adapter.filter.filter(s)
+            }
 
-        if (name.isEmpty()) {
-            binding.projectNameInput.error = "Project name is required"
-            isValid = false
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        binding.autoCompleteTextView.setOnItemClickListener { parent, _, position, _ ->
+            val selectedMember = parent.getItemAtPosition(position).toString()
+            if (selectedMember !in assignedMembers) {
+                assignedMembers.add(selectedMember)
+                addMemberView(selectedMember)
+                binding.autoCompleteTextView.text.clear()
+            }
         }
-
-        if (description.isEmpty()) {
-            binding.projectDescriptionInput.error = "Project description is required"
-            isValid = false
-        }
-
-        if (!isValid) {
-            Toast.makeText(activity, "Input shouldn't be empty!", Toast.LENGTH_SHORT).show()
-        }
-
-        return Pair(isValid, ProjectPayload(name, description))
     }
 
-    private fun addProject(token: String, payload: ProjectPayload) {
-        RetrofitClient.projectService.addProject(token, payload).enqueue(object : Callback<ApiResponse<Project>> {
-            override fun onResponse(call: Call<ApiResponse<Project>>, response: Response<ApiResponse<Project>>) {
-                if (response.isSuccessful) {
-                    val apiResponse = response.body()
-                    Toast.makeText(activity, apiResponse?.message ?: "Project added successfully!", Toast.LENGTH_SHORT).show()
-                    // Navigate back to the projects list or another appropriate action
-                    findNavController().navigate(R.id.navigation_projects)
-                } else {
-                    Toast.makeText(activity, "Failed to add project!", Toast.LENGTH_SHORT).show()
-                }
-            }
+    private fun addMemberView(member: String) {
+        val memberView = LayoutInflater.from(requireContext()).inflate(R.layout.member_item, binding.projectAssignedToContainer, false)
 
-            override fun onFailure(call: Call<ApiResponse<Project>>, t: Throwable) {
-                Toast.makeText(activity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
-            }
-        })
+        val memberNameTextView: TextView = memberView.findViewById(R.id.member_name)
+        val removeMemberButton: ImageButton = memberView.findViewById(R.id.remove_member_btn)
+
+        memberNameTextView.text = member
+        removeMemberButton.setOnClickListener {
+            assignedMembers.remove(member)
+            binding.projectAssignedToContainer.removeView(memberView)
+        }
+
+        binding.projectAssignedToContainer.visibility = View.VISIBLE
+        binding.projectAssignedToContainer.addView(memberView)
     }
 }

@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.taskpixie.databinding.TaskItemBinding
 import com.example.taskpixie.model.PreviewTask
 
-class TasksAdapter : RecyclerView.Adapter<TasksAdapter.TaskViewHolder>() {
+class TasksAdapter(
+    private val clickListener: (PreviewTask) -> Unit
+) : RecyclerView.Adapter<TasksAdapter.TaskViewHolder>() {
 
     private var tasks: List<PreviewTask> = emptyList()
 
@@ -23,17 +25,22 @@ class TasksAdapter : RecyclerView.Adapter<TasksAdapter.TaskViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        holder.bind(tasks[position])
+        holder.bind(tasks[position], clickListener)
     }
 
     override fun getItemCount(): Int = tasks.size
 
     class TaskViewHolder(private val binding: TaskItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(task: PreviewTask) {
+        fun bind(task: PreviewTask, clickListener: (PreviewTask) -> Unit) {
             binding.taskTitle.text = task.title
             binding.taskPriority.text = task.priority
             binding.taskDescription.text = task.description
             binding.taskProject.text = task.project
+
+            // Binding On Click
+            binding.root.setOnClickListener {
+                clickListener(task)
+            }
         }
     }
 }

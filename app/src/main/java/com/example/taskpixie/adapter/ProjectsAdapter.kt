@@ -1,5 +1,6 @@
 package com.example.taskpixie.adapter
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,31 +9,18 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskpixie.R
 import com.example.taskpixie.databinding.ProjectItemBinding
-import com.example.taskpixie.model.Project
+import com.example.taskpixie.model.PreviewProject
 
-class ProjectsAdapter : RecyclerView.Adapter<ProjectsAdapter.ProjectViewHolder>() {
+class ProjectsAdapter(
+    private val clickListener: (PreviewProject) -> Unit
+) : RecyclerView.Adapter<ProjectsAdapter.ProjectViewHolder>() {
 
-    private val projects: MutableList<Project> = mutableListOf()
+    private var projects: List<PreviewProject> = emptyList()
 
-    fun submitList(newProjects: List<Project>) {
-        projects.clear()
-        projects.addAll(newProjects)
+    @SuppressLint("NotifyDataSetChanged")
+    fun submitList(newProjects: List<PreviewProject>) {
+        projects = newProjects
         notifyDataSetChanged()
-    }
-
-    fun addProject(project: Project) {
-        projects.add(project)
-        notifyItemInserted(projects.size - 1)
-    }
-
-    fun updateProject(position: Int, project: Project) {
-        projects[position] = project
-        notifyItemChanged(position)
-    }
-
-    fun removeProject(position: Int) {
-        projects.removeAt(position)
-        notifyItemRemoved(position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProjectViewHolder {
@@ -41,23 +29,27 @@ class ProjectsAdapter : RecyclerView.Adapter<ProjectsAdapter.ProjectViewHolder>(
     }
 
     override fun onBindViewHolder(holder: ProjectViewHolder, position: Int) {
-        holder.bind(projects[position])
+        holder.bind(projects[position], clickListener)
     }
 
     override fun getItemCount(): Int = projects.size
 
     class ProjectViewHolder(private val binding: ProjectItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(project: Project) {
+        fun bind(project: PreviewProject, clickListener: (PreviewProject) -> Unit) {
             binding.projectName.text = project.name
 
             // Set the drawable size programmatically
-            val drawable: Drawable? = ContextCompat.getDrawable(binding.root.context, R.drawable.ic_projects)
+            val drawable: Drawable? = ContextCompat.getDrawable(binding.root.context, R.drawable.ic_project)
             drawable?.let {
                 val wrappedDrawable = DrawableCompat.wrap(it)
                 val width = 96  // Width in pixels
                 val height = 96  // Height in pixels
                 wrappedDrawable.setBounds(0, 0, width, height)
                 binding.projectName.setCompoundDrawables(null, wrappedDrawable, null, null)
+            }
+
+            binding.root.setOnClickListener {
+                clickListener(project)
             }
         }
     }

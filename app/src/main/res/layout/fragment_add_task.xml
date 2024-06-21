@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    tools:context=".fragment.AddTaskFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="16dp"
-        tools:context=".fragment.AddTaskFragment">
+        android:padding="16dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -27,12 +27,12 @@
         <TextView
             android:id="@+id/task_title_label"
             style="@style/Label"
-            android:text="@string/task_title_label" />
+            android:text="@string/title_label" />
         <EditText
             android:id="@+id/task_title_input"
             style="@style/Input"
             android:autofillHints="task_title"
-            android:hint="@string/task_title_hint"
+            android:hint="@string/title_hint"
             android:inputType="text"
             android:labelFor="@id/task_title_label" />
 
@@ -55,14 +55,14 @@
         <TextView
             android:id="@+id/task_detail_label"
             style="@style/Label"
-            android:text="@string/task_detail_label"
+            android:text="@string/detail_label"
             android:layout_marginTop="10dp" />
         <EditText
             android:id="@+id/task_detail_input"
             style="@style/Input"
             android:autofillHints="task_detail"
             android:gravity="start"
-            android:hint="@string/task_detail_hint"
+            android:hint="@string/detail_hint"
             android:inputType="textMultiLine"
             android:labelFor="@id/task_detail_label"
             android:minLines="3"
@@ -72,13 +72,13 @@
         <TextView
             android:id="@+id/task_priority_label"
             style="@style/Label"
-            android:text="@string/task_priority_label"
+            android:text="@string/priority_label"
             android:layout_marginTop="10dp" />
         <Spinner
             android:id="@+id/task_priority_spinner"
             style="@style/Spinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:entries="@array/task_priorities" />
 
         <TextView
@@ -99,13 +99,13 @@
         <TextView
             android:id="@+id/task_status_label"
             style="@style/Label"
-            android:text="@string/task_status_label"
+            android:text="@string/status_label"
             android:layout_marginTop="10dp" />
         <Spinner
             android:id="@+id/task_status_spinner"
             style="@style/Spinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:entries="@array/task_statuses" />
 
         <TextView
@@ -117,7 +117,7 @@
             android:id="@+id/task_project_spinner"
             style="@style/Spinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:entries="@array/task_projects" />
 
         <TextView
