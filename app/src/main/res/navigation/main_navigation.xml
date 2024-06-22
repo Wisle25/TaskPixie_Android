@@ -11,8 +11,8 @@
         android:label="fragment_tasks"
         tools:layout="@layout/fragment_tasks" >
         <action
-            android:id="@+id/action_navigation_tasks_to_addTaskFragment"
-            app:destination="@id/addTaskFragment" />
+            android:id="@+id/action_navigation_tasks_to_formTaskFragment"
+            app:destination="@id/formTaskFragment" />
         <action
             android:id="@+id/action_navigation_tasks_to_taskDetailFragment"
             app:destination="@id/taskDetailFragment" />
@@ -47,10 +47,10 @@
         android:label="fragment_edit_profile"
         tools:layout="@layout/fragment_edit_profile" />
     <fragment
-        android:id="@+id/addTaskFragment"
-        android:name="com.example.taskpixie.fragment.AddTaskFragment"
+        android:id="@+id/formTaskFragment"
+        android:name="com.example.taskpixie.fragment.FormTaskFragment"
         android:label="fragment_add_task"
-        tools:layout="@layout/fragment_add_task" >
+        tools:layout="@layout/fragment_form_task" >
         <action
             android:id="@+id/action_addTaskFragment_to_navigation_tasks"
             app:destination="@id/navigation_tasks" />
@@ -59,7 +59,11 @@
         android:id="@+id/taskDetailFragment"
         android:name="com.example.taskpixie.fragment.TaskDetailFragment"
         android:label="fragment_task_detail"
-        tools:layout="@layout/fragment_task_detail" />
+        tools:layout="@layout/fragment_task_detail" >
+        <action
+            android:id="@+id/action_taskDetailFragment_to_formTaskFragment"
+            app:destination="@id/formTaskFragment" />
+    </fragment>
     <fragment
         android:id="@+id/projectDetailFragment"
         android:name="com.example.taskpixie.fragment.ProjectDetailFragment"
@@ -71,9 +75,9 @@
     </fragment>
     <fragment
         android:id="@+id/addProjectFragment"
-        android:name="com.example.taskpixie.fragment.AddProjectFragment"
+        android:name="com.example.taskpixie.fragment.FormProjectFragment"
         android:label="fragment_add_project"
-        tools:layout="@layout/fragment_add_project" >
+        tools:layout="@layout/fragment_form_project" >
         <action
             android:id="@+id/action_addProjectFragment_to_navigation_projects"
             app:destination="@id/navigation_projects" />

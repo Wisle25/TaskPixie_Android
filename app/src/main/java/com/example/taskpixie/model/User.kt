@@ -17,4 +17,8 @@ data class User(
     val username: String,
     val email: String,
     val avatarLink: String,
-)
+) {
+    override fun toString(): String {
+        return username
+    }
+}

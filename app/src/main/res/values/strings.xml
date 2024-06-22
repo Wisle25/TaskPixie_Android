@@ -37,7 +37,7 @@
     <string name="title_hint">Enter your title</string>
     <string name="task_description_label">Description:</string>
     <string name="task_description_hint">Enter your description</string>
-    <string name="greets_user">Welcome, User!</string>
+    <string name="greets_user">Welcome, %1$s!</string>
     <string name="greets_msg">Have a Nice day!</string>
     <string name="search_name">Find tasks</string>
     <string name="low_priority">Low</string>
@@ -73,11 +73,11 @@
     <string name="tasks">Tasks List:</string>
     <string name="search_member_hint">Enter user\'s username to get added</string>
     <string name="remove_user">Remove User</string>
+    <string name="logout">Log out</string>
 
     <!-- Task Priorities Array -->
     <string-array name="task_priorities">
         <item>Low</item>
-        <item>Medium</item>
         <item>High</item>
         <item>Urgent</item>
     </string-array>

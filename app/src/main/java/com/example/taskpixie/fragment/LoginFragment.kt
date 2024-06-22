@@ -17,6 +17,7 @@ import com.example.taskpixie.model.LoginUserPayload
 import com.example.taskpixie.R
 import com.example.taskpixie.activity.MainActivity
 import com.example.taskpixie.datastore.UserPreferences
+import com.example.taskpixie.model.User
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.first
 import retrofit2.Call
@@ -82,47 +83,71 @@ class LoginFragment : Fragment() {
     }
 
     private fun handleLogin(payload: LoginUserPayload) {
-//        RetrofitClient.userService.loginUser(payload).enqueue(object :
-//            Callback<ApiResponse<String>> {
-//            override fun onResponse(call: Call<ApiResponse<String>>, response: Response<ApiResponse<String>>) {
-//                val gson = Gson()
-//                val type = object : TypeToken<ApiResponse<String>>() {}.type
-//
-//                val apiResponse: ApiResponse<String>? = if (response.isSuccessful) {
-//                    response.body()
-//                } else {
-//                    gson.fromJson(response.errorBody()?.charStream(), type)
-//                }
-//
-//                if (apiResponse?.status == "success") {
-//                    Toast.makeText(activity, apiResponse.message, Toast.LENGTH_SHORT).show()
-//                    val accessToken = response.headers()["Authorization"]?.replace("Bearer ", "")
-//                    val refreshToken = response.headers()["X-Refresh-Token"]
-//
-//                    if (accessToken != null && refreshToken != null) {
-//                        lifecycleScope.launch {
-//                            userPreferences.saveTokens(accessToken, refreshToken)
-//                            userPreferences.saveCredentials(payload.identity, payload.password)
-//
-//                            // Navigate to MainActivity
-//                            val intent = Intent(requireContext(), MainActivity::class.java)
-//                            startActivity(intent)
-//                            requireActivity().finish() // Finish LoginActivity
-//                        }
-//                    }
-//                } else {
-//                    displayErrorMessages(apiResponse?.message)
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<ApiResponse<String>>, t: Throwable) {
-//                Toast.makeText(activity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
-//            }
-//        })
-        // REMOVE THIS LATER!!
-        val intent = Intent(requireContext(), MainActivity::class.java)
-        startActivity(intent)
-        requireActivity().finish() // Finish LoginActivity
+        RetrofitClient.userService.loginUser(payload).enqueue(object :
+            Callback<ApiResponse<String>> {
+            override fun onResponse(call: Call<ApiResponse<String>>, response: Response<ApiResponse<String>>) {
+                val gson = Gson()
+                val type = object : TypeToken<ApiResponse<String>>() {}.type
+
+                val apiResponse: ApiResponse<String>? = if (response.isSuccessful) {
+                    response.body()
+                } else {
+                    gson.fromJson(response.errorBody()?.charStream(), type)
+                }
+
+                if (apiResponse?.status == "success") {
+                    Toast.makeText(activity, apiResponse.message, Toast.LENGTH_SHORT).show()
+                    val accessToken = response.headers()["Authorization"]?.replace("Bearer ", "")
+                    val refreshToken = response.headers()["X-Refresh-Token"]
+
+                    if (accessToken != null && refreshToken != null) {
+                        lifecycleScope.launch {
+                            userPreferences.saveTokens(accessToken, refreshToken)
+                            userPreferences.saveCredentials(payload.identity, payload.password)
+
+                            fetchUserDetails(accessToken)
+
+                            // Navigate to MainActivity
+                            val intent = Intent(requireContext(), MainActivity::class.java)
+                            startActivity(intent)
+                            requireActivity().finish() // Finish LoginActivity
+                        }
+                    }
+                } else {
+                    displayErrorMessages(apiResponse?.message)
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponse<String>>, t: Throwable) {
+                Toast.makeText(activity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    /**
+     * Fetch user details after successful login and save user ID
+     */
+    private fun fetchUserDetails(token: String) {
+        RetrofitClient.userService.getLoggedUser(token).enqueue(object : Callback<ApiResponse<User>> {
+            override fun onResponse(call: Call<ApiResponse<User>>, response: Response<ApiResponse<User>>) {
+                if (response.isSuccessful) {
+                    val apiResponse = response.body()
+                    if (apiResponse?.status == "success") {
+                        val user = apiResponse.data
+                        user?.let {
+                            lifecycleScope.launch {
+                                userPreferences.saveUserId(it.id)
+                                userPreferences.saveUsername(it.username)
+                            }
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponse<User>>, t: Throwable) {
+
+            }
+        })
     }
 
     private fun displayErrorMessages(message: String?) {

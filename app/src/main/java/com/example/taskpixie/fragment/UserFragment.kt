@@ -1,5 +1,6 @@
 package com.example.taskpixie.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import com.example.taskpixie.http.RetrofitClient
 import com.example.taskpixie.model.ApiResponse
 import com.example.taskpixie.model.User
 import com.example.taskpixie.R
+import com.example.taskpixie.activity.WelcomeActivity
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -47,6 +49,11 @@ class UserFragment : Fragment() {
         // Bind
         binding.editProfileBtn.setOnClickListener {
             findNavController().navigate(R.id.action_userFragment_to_editProfileFragment)
+        }
+
+        // Bind logout button
+        binding.logoutBtn.setOnClickListener {
+            logoutUser()
         }
 
         // ...
@@ -90,5 +97,36 @@ class UserFragment : Fragment() {
                 Toast.makeText(activity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    // ==================== Logout User ==================== //
+
+    private fun logoutUser() {
+        lifecycleScope.launch {
+            val refreshToken = userPreferences.refreshToken.first() ?: return@launch
+            val accessToken = userPreferences.accessToken.first()
+            RetrofitClient.userService.logout(refreshToken, "Bearer $accessToken").enqueue(object : Callback<ApiResponse<String>> {
+                override fun onResponse(call: Call<ApiResponse<String>>, response: Response<ApiResponse<String>>) {
+                    if (response.isSuccessful) {
+                        lifecycleScope.launch {
+                            userPreferences.clear()
+                            navigateToWelcomeActivity()
+                        }
+                    } else {
+                        Toast.makeText(requireContext(), "Failed to log out", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<ApiResponse<String>>, t: Throwable) {
+                    Toast.makeText(requireContext(), "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
+    }
+
+    private fun navigateToWelcomeActivity() {
+        val intent = Intent(requireContext(), WelcomeActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
     }
 }

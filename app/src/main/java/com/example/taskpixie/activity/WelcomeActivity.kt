@@ -3,6 +3,7 @@ package com.example.taskpixie.activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -104,7 +105,9 @@ class WelcomeActivity : AppCompatActivity() {
                         user?.let {
                             lifecycleScope.launch {
                                 userPreferences.saveUserId(it.id)
-                                Log.d("Welcome", "User Id: ${it.id}")
+                                userPreferences.saveUsername(it.username)
+                                Toast.makeText(this@WelcomeActivity, "Welcome back, ${it.username}!", Toast.LENGTH_SHORT).show()
+
                                 navigateToMainActivity()
                             }
                         }

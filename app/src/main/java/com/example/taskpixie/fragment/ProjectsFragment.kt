@@ -4,14 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.taskpixie.adapter.ProjectsAdapter
 import com.example.taskpixie.databinding.FragmentProjectsBinding
 import com.example.taskpixie.datastore.UserPreferences
 import com.example.taskpixie.R
+import com.example.taskpixie.http.RetrofitClient
 import com.example.taskpixie.model.PreviewProject
+import com.example.taskpixie.model.ApiResponse
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ProjectsFragment : Fragment() {
 
@@ -30,10 +39,10 @@ class ProjectsFragment : Fragment() {
         userPreferences = UserPreferences(requireContext())
 
         setupRecyclerView()
-        loadDummyData()
+        fetchProjects()
 
         // Binding
-        binding.fabAddProject.setOnClickListener{
+        binding.fabAddProject.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_projects_to_addProjectFragment)
         }
 
@@ -48,8 +57,11 @@ class ProjectsFragment : Fragment() {
     // ==================== Setup RecyclerView ==================== //
 
     private fun setupRecyclerView() {
-        projectsAdapter = ProjectsAdapter {
-            findNavController().navigate(R.id.action_navigation_projects_to_projectDetailFragment)
+        projectsAdapter = ProjectsAdapter { projectId ->
+            val bundle = Bundle().apply {
+                putString("projectId", projectId)
+            }
+            findNavController().navigate(R.id.action_navigation_projects_to_projectDetailFragment, bundle)
         }
         binding.projectsRecyclerView.apply {
             layoutManager = GridLayoutManager(context, 3)
@@ -57,18 +69,26 @@ class ProjectsFragment : Fragment() {
         }
     }
 
-    private fun loadDummyData() {
-        val dummyProjects = listOf(
-            PreviewProject(id = "1", name = "Project 1"),
-            PreviewProject(id = "2", name = "Project 2"),
-            PreviewProject(id = "3", name = "Project 3"),
-            PreviewProject(id = "4", name = "Project 4"),
-            PreviewProject(id = "5", name = "Project 5"),
-            PreviewProject(id = "6", name = "Project 6"),
-            PreviewProject(id = "7", name = "Project 7"),
-            PreviewProject(id = "8", name = "Project 8"),
-            PreviewProject(id = "9", name = "Project 9")
-        )
-        projectsAdapter.submitList(dummyProjects)
+    private fun fetchProjects() {
+        lifecycleScope.launch {
+            val token = userPreferences.accessToken.first() ?: return@launch
+            RetrofitClient.projectService.getProjects("Bearer $token").enqueue(object : Callback<ApiResponse<List<PreviewProject>>> {
+                override fun onResponse(
+                    call: Call<ApiResponse<List<PreviewProject>>>,
+                    response: Response<ApiResponse<List<PreviewProject>>>
+                ) {
+                    if (response.isSuccessful) {
+                        val projects = response.body()?.data ?: emptyList()
+                        projectsAdapter.submitList(projects)
+                    } else {
+                        Toast.makeText(requireContext(), "Error fetching projects: ${response.message()}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<ApiResponse<List<PreviewProject>>>, t: Throwable) {
+                    Toast.makeText(requireContext(), "Error fetching projects", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
     }
 }

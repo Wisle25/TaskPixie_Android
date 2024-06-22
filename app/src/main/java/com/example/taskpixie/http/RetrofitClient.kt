@@ -6,8 +6,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-    private const val BASE_URL = "http://192.168.0.104:8000"
-    const val MINIO_URL = "http://192.168.0.104:9000/task-pixie/"
+    private const val BASE_URL = "https://enchanting-youthfulness-production.up.railway.app"
+    const val MINIO_URL = "https://bucket-production-897e.up.railway.app/task-pixie/"
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY

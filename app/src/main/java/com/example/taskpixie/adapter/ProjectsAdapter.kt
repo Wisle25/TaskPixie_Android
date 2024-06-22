@@ -12,7 +12,7 @@ import com.example.taskpixie.databinding.ProjectItemBinding
 import com.example.taskpixie.model.PreviewProject
 
 class ProjectsAdapter(
-    private val clickListener: (PreviewProject) -> Unit
+    private val clickListener: (String) -> Unit
 ) : RecyclerView.Adapter<ProjectsAdapter.ProjectViewHolder>() {
 
     private var projects: List<PreviewProject> = emptyList()
@@ -35,8 +35,8 @@ class ProjectsAdapter(
     override fun getItemCount(): Int = projects.size
 
     class ProjectViewHolder(private val binding: ProjectItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(project: PreviewProject, clickListener: (PreviewProject) -> Unit) {
-            binding.projectName.text = project.name
+        fun bind(project: PreviewProject, clickListener: (String) -> Unit) {
+            binding.projectName.text = project.title
 
             // Set the drawable size programmatically
             val drawable: Drawable? = ContextCompat.getDrawable(binding.root.context, R.drawable.ic_project)
@@ -49,7 +49,7 @@ class ProjectsAdapter(
             }
 
             binding.root.setOnClickListener {
-                clickListener(project)
+                clickListener(project.id)
             }
         }
     }
